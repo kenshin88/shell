@@ -8,7 +8,7 @@ TARGET=$ADMIN
 output_file="/dev/shm/service_status"
 function notify_mail(){
      message=${1}
-     cat $message | /bin/mail -s  "[NOTIFICATION]  Service Status on `hostname` - ip: $THIS_IP " -S smtp=smtp://${SMTP_SERVER} -S from="Admin_Checksum<admin@xxx.com>" "$TARGET"
+     cat $message | /bin/mail -s  "[NOTIFICATION]  Service Status on `hostname` - ip: $THIS_IP " -S smtp=smtp://${SMTP_SERVER} -S from="Admin_Check_Service_Status<admin@xxx.com>" "$TARGET"
 }
 function main(){
 for service_item in $SERVICE_NAMES; do
@@ -24,6 +24,7 @@ for service_item in $SERVICE_NAMES; do
                 echo "[$service_item] get status_code=$status_code [UNDEFINED]" >> "${output_file}"
         fi
 done
+#cat /dev/shm/service_status > /root/output_on_boot ## for test without stmp
 notify_mail "${output_file}"
 }
 main
